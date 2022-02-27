@@ -90,7 +90,7 @@ defmodule OAuth2TokenManager.RefreshToken do
     end
   end
 
-  defp suitable_refresh_token(iss, <<_::binary>> = sub, scopes_or_nil) do
+  defp suitable_refresh_token(iss, sub, scopes_or_nil) do
     with {:ok, rt_list} <- Store.get_refresh_tokens_for_subject(iss, sub) do
       suitable_rts = Enum.filter(rt_list, fn {_rt, rt_metadata, _updated_at} ->
         refresh_token_has_scopes?(rt_metadata, scopes_or_nil)
